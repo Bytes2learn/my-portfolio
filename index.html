@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: rgba(255,255,255,0.08);
+      --accent: #7c6fcd;
+      --accent2: #3ecfb2;
+      --text: #f0eefc;
+      --muted: #8b8aa0;
+      --card: #1a1a26;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 2.5rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem; font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 8rem 2.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,111,205,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(124,111,205,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(124,111,205,0.3);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.8rem; font-weight: 500;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800; line-height: 1.05;
+      max-width: 800px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 520px; line-height: 1.7;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn {
+      padding: 0.8rem 1.8rem; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 500;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff; border: none;
+    }
+    .btn-primary:hover { background: #6a5eb8; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SECTIONS */
+    section { padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; margin-bottom: 3rem;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center;
+    }
+    .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+    .skill-tag {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.82rem; color: var(--muted);
+    }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem; font-weight: 800;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { color: var(--muted); font-size: 0.85rem; margin-top: 0.3rem; }
+
+    /* SERVICES */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .service-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(124,111,205,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1.2rem;
+    }
+    .service-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem;
+    }
+    .service-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+
+    /* EXPERIENCE */
+    .exp-list { display: flex; flex-direction: column; gap: 1.2rem; }
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      display: flex; gap: 1.5rem;
+    }
+    .exp-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); margin-top: 6px; flex-shrink: 0;
+    }
+    .exp-content h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+    }
+    .exp-meta { color: var(--accent2); font-size: 0.82rem; margin: 0.3rem 0 0.6rem; }
+    .exp-content p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+
+    /* CONTACT */
+    .contact-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+    }
+    .contact-wrap h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800; margin-bottom: 1rem;
+    }
+    .contact-wrap p { color: var(--muted); margin-bottom: 2rem; }
+    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 1.4rem;
+      color: var(--text); text-decoration: none;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 7rem 1.2rem 3rem; }
+      section { padding: 3.5rem 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .exp-card { flex-direction: column; gap: 0.8rem; }
+      .contact-wrap { padding: 2rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">YourName</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">&#x2022; Available for Remote Work</div>
+    <h1>Virtual Assistant &<br/><span>Customer Service</span><br/>Professional</h1>
+    <p class="hero-sub">
+      Dedicated remote professional with experience in customer support,
+      telemarketing, CRM management, and scheduling — ready to support
+      your business from day one.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">Hire Me</a>
+      <a href="#services" class="btn btn-outline">View Services</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">About Me</div>
+    <div class="section-title">Who I Am</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I am a reliable and results-driven remote professional based in the Philippines,
+          with solid experience in customer service, telemarketing (TSR), and virtual
+          assistance. I specialize in supporting US-based businesses with phone handling,
+          CRM management, scheduling, and client communication.
+        </p>
+        <p>
+          I am self-motivated, detail-oriented, and thrive in independent remote
+          environments. I am passionate about delivering excellent service and growing
+          long-term with the teams I work with.
+        </p>
+        <div class="skills-wrap">
+          <span class="skill-tag">Customer Service</span>
+          <span class="skill-tag">TSR / Telemarketing</span>
+          <span class="skill-tag">CRM Management</span>
+          <span class="skill-tag">Scheduling</span>
+          <span class="skill-tag">Phone Handling</span>
+          <span class="skill-tag">Email Support</span>
+          <span class="skill-tag">Data Entry</span>
+          <span class="skill-tag">Shopify VA</span>
+        </div>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Remote Ready</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">US</div>
+          <div class="stat-label">Business Hours Available</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">PH</div>
+          <div class="stat-label">Based in Philippines</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="background: var(--surface); max-width:100%; padding: 5rem 0;">
+    <div style="max-width:1100px; margin:0 auto; padding: 0 2.5rem;">
+      <div class="section-label">What I Offer</div>
+      <div class="section-title">My Services</div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">📞</div>
+          <h3>Phone & Customer Support</h3>
+          <p>Handling inbound and outbound calls professionally, resolving concerns, and representing your brand with empathy and clarity.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🗂️</div>
+          <h3>CRM Management</h3>
+          <p>Organizing and maintaining client records, updating pipelines, logging call notes, and keeping your CRM data clean and accurate.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📅</div>
+          <h3>Scheduling & Admin</h3>
+          <p>Coordinating appointments, managing calendars, sending reminders, and handling day-to-day administrative tasks.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💬</div>
+          <h3>TSR / Telemarketing</h3>
+          <p>Outbound calling for lead generation, follow-ups, and sales conversion — with a persuasive yet customer-first approach.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🛒</div>
+          <h3>eCommerce VA</h3>
+          <p>Supporting Shopify or other eCommerce stores with product listing, order management, and customer communication.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">✉️</div>
+          <h3>Email & Chat Support</h3>
+          <p>Managing support inboxes, responding to customer inquiries, and ensuring timely and professional communication at all times.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Background</div>
+    <div class="section-title">Work Experience</div>
+    <div class="exp-list">
+      <div class="exp-card">
+        <div class="exp-dot"></div>
+        <div class="exp-content">
+          <h3>Virtual Assistant — Pool Service Company (US-based)</h3>
+          <div class="exp-meta">Remote · 2024 – Present</div>
+          <p>Handled phone calls, managed client scheduling, updated CRM records, and coordinated service appointments for a US pool service business.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-dot"></div>
+        <div class="exp-content">
+          <h3>Telemarketing Sales Representative (TSR)</h3>
+          <div class="exp-meta">Remote / On-site · 2022 – 2024</div>
+          <p>Conducted outbound calls for lead generation and sales conversion. Consistently met and exceeded monthly targets through effective communication and persuasion techniques.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-dot"></div>
+        <div class="exp-content">
+          <h3>Customer Service Representative</h3>
+          <div class="exp-meta">BPO / Call Center · 2020 – 2022</div>
+          <p>Managed high-volume inbound calls, resolved customer concerns, processed orders, and maintained a high customer satisfaction rating.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <h2>Let's Work Together</h2>
+      <p>I'm open to remote opportunities — long-term roles preferred.<br/>Feel free to reach out through any of the channels below.</p>
+      <div class="contact-links">
+        <a href="mailto:youremail@gmail.com" class="contact-link">✉ youremail@gmail.com</a>
+        <a href="https://www.linkedin.com/in/yourprofile" class="contact-link" target="_blank">in LinkedIn</a>
+        <a href="https://www.onlinejobs.ph" class="contact-link" target="_blank">&#128188; OnlineJobs.ph</a>
+        <a href="https://www.upwork.com" class="contact-link" target="_blank">&#128101; Upwork</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 YourName · Built with HTML · Hosted on Vercel</p>
+  </footer>
+
+</body>
+</html>
